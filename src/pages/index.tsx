@@ -8,6 +8,8 @@ import Image from "next/image";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { NextPage } from "next";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
@@ -87,8 +89,12 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col ">
         <div className="flex gap-1  text-slate-300">
-          <span className="font-semibold">{`@${author.username}`}</span> ·{" "}
-          <span className="font-thin">{dayjs(post.createdAt).fromNow()}</span>
+          <Link href={`/@${author.username}`}>
+            <span className="font-semibold">{`@${author.username}`}</span> ·{" "}
+          </Link>
+          <Link href={`/post/${post.id}`}>
+            <span className="font-thin">{dayjs(post.createdAt).fromNow()}</span>
+          </Link>
         </div>
         <span className="text-2xl">{post.content}</span>
       </div>
@@ -112,7 +118,7 @@ const Feed = () => {
   );
 };
 
-export default function Home() {
+const Home: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
 
   // Start fetching asap
@@ -144,4 +150,6 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
+
+export default Home;
