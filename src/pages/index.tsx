@@ -6,7 +6,7 @@ import Image from "next/image";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { PageLayout } from "~/components/layout";
 import PostView from "~/components/postview";
 
@@ -25,8 +25,8 @@ const CreatePostWizard = () => {
       void ctx.posts.getAll.invalidate();
     },
     onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors.content;
-      if (errorMessage && errorMessage[0]) {
+      const errorMessage = e.data?.zodError?.fieldErrors?.content;
+      if (errorMessage && errorMessage?.[0]) {
         toast.error(errorMessage[0]);
       } else {
         toast.error("Failed to post! Please try again later.");
